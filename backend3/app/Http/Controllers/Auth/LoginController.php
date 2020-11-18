@@ -40,38 +40,31 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function show_login()
+    protected function show_login()
     {
-        
-        return view('login');
+        return view('auth.login');
     }
 
-    public function login(Request $request)
-    { 
+    protected function login(Request $request)
+    {
         $request->validate([
             'email' => 'required',
-            'password' => 'required'
+            'password' => 'required',
         ]);
-        $credentials = $request->except(['_token']);
+        $remember_me = $request->has('remember');
         
-        if (Auth::attempt($credentials)) {
-            return redirect()->route('welcome');
-
+        $credentials = $request->only('email', 'password');
+        
+        if (Auth::attempt($credentials, $remember_me)) {
+            return redirect()->route('home');
         }else{
-            session()->flash('message', 'Invalid credentials');
-            return redirect()->back();
+            return redirect()->route('login')->withErrors('Wrong username/password combination.');
         }
     }
 
-    public function show_signup()
+    protected function logout()
     {
-    }
-
-    public function signup()
-    {
-    }
-
-    public function logout()
-    {
+        Auth::logout();
+        return redirect()->route('home');
     }
 }
