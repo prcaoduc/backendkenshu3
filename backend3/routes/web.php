@@ -15,10 +15,14 @@ Route::get('/haha', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::namespace('Auth')->group(function(){
+Route::get('/', function () {
+    return view('pages.home');
+})->name('home');
+
+Route::namespace('Auth')->group(function () {
     Route::get('/login', 'LoginController@show_login')->name('login');
     Route::post('/login', 'LoginController@login')->name('login');
-    Route::get('/register', 'LoginController@show_signup')->name('register');
-    Route::post('/register', 'LoginController@signup');
-    ROute::post('/logout', 'LoginController@logout')->name('logout');
+    Route::get('/register', 'RegisterController@signup')->name('register');
+    Route::post('/register', 'RegisterController@create')->name('register');
+    Route::post('/logout', 'LoginController@logout')->name('logout');
 });
