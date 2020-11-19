@@ -15,9 +15,7 @@ Route::get('/haha', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/', function () {
-    return view('pages.home');
-})->name('home');
+Route::get('/', 'PagesController@home')->name('home');
 
 Route::namespace('Auth')->group(function () {
     Route::get('/login', 'LoginController@show_login')->name('login');
