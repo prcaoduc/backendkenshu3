@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\DB;
 class UsersTableSeeder extends Seeder
 {
 
-public function run()
-{
-    DB::table('users')->delete();
-    factory(App\User::class, 50)->create();
-}
+    public function run()
+    {
+        DB::table('users')->delete();
+        factory(App\User::class, 50)->create();
+    }
 
 }
