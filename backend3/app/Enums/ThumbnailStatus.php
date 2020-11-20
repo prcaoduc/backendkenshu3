@@ -6,6 +6,6 @@ use BenSampo\Enum\Enum;
 
 final class ThumbnailStatus extends Enum
 {
-    const isThumbnail =   0;
-    const isNotThumbnail =   1;
+    const isThumbnail =   1;
+    const isNotThumbnail =   0;
 }

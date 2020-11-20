@@ -52,9 +52,9 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
         $remember_me = $request->has('remember');
-        
+
         $credentials = $request->only('email', 'password');
-        
+
         if (Auth::attempt($credentials, $remember_me)) {
             return redirect()->route('home');
         }else{

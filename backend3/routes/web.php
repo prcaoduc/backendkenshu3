@@ -16,6 +16,7 @@ Route::get('/haha', function () {
 })->name('welcome');
 
 Route::get('/', 'PagesController@home')->name('home');
+Route::get('/article/{id}', 'ArticleController@show')->name('articles.show');
 
 Route::namespace('Auth')->group(function () {
     Route::get('/login', 'LoginController@show_login')->name('login');
