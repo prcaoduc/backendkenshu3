@@ -15,6 +15,9 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        return view('article.show', ['article' => Article::findOrFail($id)]);
+        $article    = Article::with(['images', 'tags'])->findOrFail($id);
+        $images     = $article->images()->get();
+        $tags       = $article->tags()->get();
+        return view('articles.show', compact('article', 'images', 'tags'));
     }
 }
