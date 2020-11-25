@@ -16,12 +16,30 @@ Route::get('/haha', function () {
 })->name('welcome');
 
 Route::get('/', 'PagesController@home')->name('home');
-Route::get('/article/{id}', 'ArticleController@show')->name('articles.show');
+Route::group([ 'prefix' => 'articles', 'as' => 'articles.' ], function () {
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('/create', 'ArticleController@create')->name('create');
+        Route::post('/create', 'ArticleController@store')->name('store');
+        Route::get('/{id}/edit', 'ArticleController@edit')->name('edit');
+        Route::post('/{id}/update', 'ArticleController@update')->name('update');
+        Route::post('/{id}/delete', 'ArticleController@delete')->name('delete');
+    });
+    Route::get('/{id}', 'ArticleController@show')->name('show');
+});
+
+
+Route::group([ 'prefix' => 'me', 'as' => 'profile.', 'middleware' => 'auth' ], function(){
+    Route::get('/{id}', 'ProfileController@show')->name('show');
+});
+
+Route::group([ 'prefix' => 'images', 'as' => 'images.'], function (){
+    Route::post('/create', 'ImageController@store')->name('store');
+});
 
 Route::namespace('Auth')->group(function () {
     Route::get('/login', 'LoginController@show_login')->name('login');
     Route::post('/login', 'LoginController@login')->name('login');
     Route::get('/register', 'RegisterController@signup')->name('register');
     Route::post('/register', 'RegisterController@create')->name('register');
-    Route::post('/logout', 'LoginController@logout')->name('logout');
+    Route::post('/logout', 'LoginController@logout')->middleware('auth')->name('logout');
 });

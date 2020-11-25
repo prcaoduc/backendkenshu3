@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
+    protected $fillable = ['user_id', 'url'];
+
     public function user(){
         $this->belongsTo('App\User');
     }
