@@ -31,21 +31,16 @@
                         @for ($i = 0; $i < count($articles); $i++)
                             <tr>
                                 <th scope="row">{{ $i+1 }}</th>
-                                <td>{{ $articles[$i]->title }}</td>
+                                <td><a href="{{ route('articles.show', $articles[$i]->id) }}">{{ $articles[$i]->title }}</a></td>
                                 <td>{{ $articles[$i]->created_at }}'</td>
                                 <td>
-                                <form action="{{ route('articles.edit', $user->id) }}" method="get">
-                                    <input type="hidden" name="controller" value="articles">
-                                    <input type="hidden" name="action" value="edit">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $articles[$i]->id }}">
-                                    <input type="submit" value="Edit" class="btn btn-outline-primary"/>
+                                <form action="{{ route('articles.edit', $articles[$i]->id) }}" method="get">
+                                    <input type="submit" value="編集" class="btn btn-outline-primary"/>
                                 </form>
 
-                                <form action="{{ route('articles.delete', $user->id) }}" method="post">
+                                <form action="{{ route('articles.delete', $articles[$i]->id) }}" method="post">
                                     @csrf
-                                    <input type="hidden" name="id" value="{{ $articles[$i]->id }}">
-                                    <input type="submit" value="Delete" class="btn btn-outline-danger"/>
+                                    <input type="submit" value="削除" class="btn btn-outline-danger"/>
                                 </form>
                             </tr>
                         @endfor

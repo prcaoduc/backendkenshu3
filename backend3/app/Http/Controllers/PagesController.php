@@ -8,7 +8,7 @@ use App\Article;
 class PagesController extends Controller
 {
     public function home(){
-        $articles = Article::with('tags')->get();
+        $articles = Article::with('tags')->published()->get();
         return view('pages.home', compact('articles'));
     }
 }

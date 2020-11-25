@@ -1,98 +1,96 @@
 <!-- 記事投稿ページ -->
 @extends('layouts.app')
 @section('content')
-<div class="content">
-    <div class="container">
-        <div class="load_more">
-            <div class="row">
-                <div class="col-lg-12 col-lg-offset-2">
-                    <h1>新たな記事を作成する</h1>
-                        <form id="article_form" method="post" action="{{route('articles.create')}}" role="form" enctype="multipart/form-data">
-                        @csrf
-                        <div class="controls">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="title">Title * </label>
-                                        <input id="title" type="text" name="title" class="form-control" placeholder="記事のタイトルを入力ください *" required="required" data-error="タイトルが必要。">
-                                        <small>　タイトルの最大長さは５０キャラクター</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="tag">Tag * </label>
-                                        <div id ="tag_wrapper">
-                                            <div class="form-inline">
-                                                <input type="text" name="tag[]" class="form-control inline" placeholder="記事のタグを入力ください *" required="required">
-                                                <button class="btn btn-warning remove_tag_button" type="button"><i class="fa fa-times"></i></button>
-                                            </div>
-                                        </div>
-                                        <a class="btn btn-secondary tag_new">新しいタグ</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="content">内容 * </label>
-                                        <textarea id="content" name="content" class="form-control" placeholder="内容 *" required="required" rows="30" data-error="Kindly write your post's content"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <ul id="thumbnail_select">
-
-                                </ul>
-                                <div class="col-md-12">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">イメージ追加</button>
-                                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">イメージ設置</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <label for="content">自分のイメージ</label>
-                                                <ul id="user_image">
-                                                    @if (empty($user_images))
-                                                    <span id="empty_images">まだイメージがない</span>
-                                                    @else
-                                                        @for ($i = 0 ; $i < count($user_images); $i++)
-                                                        <li> <input type="checkbox" name="images[]" value=" {{$user_images[$i]->id}}={{$user_images[$i]->url}} " id="image_checkbox{{$i}}" />
-                                                        <label for="image_checkbox{{$i}}"><img src="{{ $user_images[$i]->url }}" width="200px" height="100px"/></label></li>
-                                                        @endfor
-                                                    @endif
-                                                </ul>
-                                                <label for="content">新たなイメージを投稿する</label>
-                                                <input type="file" id="images" name="images[]" multiple="multiple" accept="image/*" class="form-control" onload="{(e) => {this.loadMe(e, index)}}" />
-                                                <div class="modal-footer">
-                                                    <button id="images_selected" type="button" class="btn btn-primary" data-dismiss="modal">確認する</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <input type="submit" name="add_submit" class="btn btn-success btn-send" value="Add" form="article_form">
+<div class="container">
+    <div class="load_more">
+        <div class="row">
+            <div class="col-lg-12 col-lg-offset-2">
+                <h1>新たな記事を作成する</h1>
+                    <form id="article_form" method="post" action="{{route('articles.create')}}" role="form" enctype="multipart/form-data">
+                    @csrf
+                    <div class="controls">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="title">Title * </label>
+                                    <input id="title" type="text" name="title" class="form-control" placeholder="記事のタイトルを入力ください *" required="required" data-error="タイトルが必要。">
+                                    <small>　タイトルの最大長さは５０キャラクター</small>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p class="text-muted"><strong>*</strong> フィールドが必要です。</p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="tag">Tag * </label>
+                                    <div id ="tag_wrapper">
+                                        <div class="form-inline">
+                                            <input type="text" name="tag[]" class="form-control inline" placeholder="記事のタグを入力ください *" required="required">
+                                            <button class="btn btn-warning remove_tag_button" type="button"><i class="fa fa-times"></i></button>
+                                        </div>
+                                    </div>
+                                    <a class="btn btn-secondary tag_new">新しいタグ</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="content">内容 * </label>
+                                    <textarea id="content" name="content" class="form-control" placeholder="内容 *" required="required" rows="30" data-error="Kindly write your post's content"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <ul id="thumbnail_select">
+
+                            </ul>
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">イメージ追加</button>
+                                <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">イメージ設置</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <label for="content">自分のイメージ</label>
+                                            <ul id="user_image">
+                                                @if (empty($user_images))
+                                                <span id="empty_images">まだイメージがない</span>
+                                                @else
+                                                    @for ($i = 0 ; $i < count($user_images); $i++)
+                                                    <li> <input type="checkbox" name="images[]" value=" {{$user_images[$i]->id}}={{$user_images[$i]->url}} " id="image_checkbox{{$i}}" />
+                                                    <label for="image_checkbox{{$i}}"><img src="{{ $user_images[$i]->url }}" width="200px" height="100px"/></label></li>
+                                                    @endfor
+                                                @endif
+                                            </ul>
+                                            <label for="content">新たなイメージを投稿する</label>
+                                            <input type="file" id="images" name="images[]" multiple="multiple" accept="image/*" class="form-control" onload="{(e) => {this.loadMe(e, index)}}" />
+                                            <div class="modal-footer">
+                                                <button id="images_selected" type="button" class="btn btn-primary" data-dismiss="modal">確認する</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="submit" name="add_submit" class="btn btn-success btn-send" value="Add" form="article_form">
+                            </div>
                         </div>
                     </div>
+                    @include('includes.form-error')
+                </form>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="text-muted"><strong>*</strong> フィールドが必要です。</p>
+                    </div>
                 </div>
-                </body>
             </div>
+            </body>
         </div>
     </div>
-</div>
 </div>
 <script>
     $('input[type="file"]').on('change', function() {

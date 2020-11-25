@@ -9,7 +9,7 @@ class ProfileController extends Controller
 {
     public function show($id){
         $user       = Auth::user()->load('articles');
-        $articles   = $user->articles()->get();
+        $articles   = $user->articles()->published()->get();
         return view('profile.show', compact('user', 'articles'));
     }
 }
