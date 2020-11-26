@@ -43,7 +43,7 @@ class ImageController extends Controller
                 }
             }
         });
-        return response()->json(['success'=>'Ajaxリクエストが成功しました']);
+        return response()->json(['success'=> $request->all()]);
     }
 
 }

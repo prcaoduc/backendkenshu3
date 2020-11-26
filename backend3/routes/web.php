@@ -32,7 +32,7 @@ Route::group([ 'prefix' => 'me', 'as' => 'profile.', 'middleware' => 'auth' ], f
     Route::get('/{id}', 'ProfileController@show')->name('show');
 });
 
-Route::group([ 'prefix' => 'images', 'as' => 'images.'], function (){
+Route::group([ 'prefix' => 'images', 'as' => 'images.', 'middleware' => 'auth' ], function (){
     Route::post('/create', 'ImageController@store')->name('store');
 });
 

@@ -40,7 +40,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <img src="{{ Storage::url("/storage/app/public/1606351901.png") }}" width="200px" height="100px"/> --}}
 
                         <div class="row">
                             <ul id="thumbnail_select">
@@ -63,7 +62,7 @@
                                                 <span id="empty_images">まだイメージがない</span>
                                                 @else
                                                     @for ($i = 0 ; $i < count($user_images); $i++)
-                                                    <li> <input type="checkbox" name="images[]" value=" {{$user_images[$i]->id}}={{$user_images[$i]->url}} " id="image_checkbox{{$i}}" />
+                                                    <li> <input type="checkbox" name="images[]" value="{{$user_images[$i]->id}}={{$user_images[$i]->url}} " id="image_checkbox{{$i}}" />
                                                     <label for="image_checkbox{{$i}}"><img src="{{ $user_images[$i]->url }}" width="200px" height="100px"/></label></li>
                                                     @endfor
                                                 @endif
@@ -76,14 +75,11 @@
                                         </div>
                                     </div>
                                 </div>
+                            <input type="submit" name="add_submit" class="btn btn-success btn-send" value="記事投稿" form="article_form">
                             </div>
                         </div>
                     </div>
                     @include('includes.form-error')
-                </form>
-                <form id="test" method="post" action="{{route('images.store')}}" role="form" enctype="multipart/form-data">
-                    @csrf
-                    <input type="submit" name="add_submit" class="btn btn-success btn-send" value="Add" form="test">
                 </form>
                 <div class="row">
                     <div class="col-md-12">
@@ -104,6 +100,7 @@
             data: fd,
             success: function(data) {
                 $("#user_image").load(location.href + " #user_image");
+                console.log(data);
             },
             fail: function(xhr, textStatus, errorThrown){
                 alert('request failed');
@@ -111,8 +108,6 @@
             cache: false,
             contentType: false,
             processData: false
-        }).done(function(data) {
-            alert(data);
         }).fail(function() {
             alert('Fail!');
         });
@@ -126,8 +121,6 @@
         var obj = {};
         for(var i=0; i < selected_images.length; i++) {
             var keyValue = selected_images[i].split("=");
-            console.log(keyValue[0]);
-            console.log(keyValue[1]);
             $('#thumbnail_select').append('<input type="hidden" name="selected_images[]" value="' + keyValue[0] + '" />');
             $('#thumbnail_select').append('<li> <input type="radio" name="thumbnail" value="' + keyValue[0] + '" id="image_checkbox' + i + '" /> ' +
                         '<label for="image_checkbox' + i + '"><img src="' + keyValue[1] + ' " width="200px" height="100px"/></label>');

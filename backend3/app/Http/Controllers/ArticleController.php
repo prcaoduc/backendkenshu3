@@ -36,10 +36,13 @@ class ArticleController extends Controller
 
     public function store(Request $request){
         $request->validate([
-            'title'             =>  'required|max:100',
+            'title'             =>  'required|max:50',
             'content'           =>  'required|min:5',
             'tag'               =>  'required',
+            'images'            =>  'nullable',
         ]);
+
+        // dd($request->all());
 
         DB::transaction(function() use ($request) {
             $article = Article::create([
