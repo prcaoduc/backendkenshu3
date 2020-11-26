@@ -6,13 +6,13 @@
         <div class="row">
             <div class="col-lg-12 col-lg-offset-2">
                 <h1>新たな記事を作成する</h1>
-                    <form id="article_form" method="post" action="{{route('articles.create')}}" role="form" enctype="multipart/form-data">
+                    <form id="article_form" method="post" action="{{route('articles.store')}}" role="form" enctype="multipart/form-data">
                     @csrf
                     <div class="controls">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="title">Title * </label>
+                                    <label for="title">タイトル * </label>
                                     <input id="title" type="text" name="title" class="form-control" placeholder="記事のタイトルを入力ください *" required="required" data-error="タイトルが必要。">
                                     <small>　タイトルの最大長さは５０キャラクター</small>
                                 </div>
@@ -21,7 +21,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="tag">Tag * </label>
+                                    <label for="tag">タグ * </label>
                                     <div id ="tag_wrapper">
                                         <div class="form-inline">
                                             <input type="text" name="tag[]" class="form-control inline" placeholder="記事のタグを入力ください *" required="required">
@@ -40,6 +40,8 @@
                                 </div>
                             </div>
                         </div>
+                        {{-- <img src="{{ Storage::url("/storage/app/public/1606351901.png") }}" width="200px" height="100px"/> --}}
+
                         <div class="row">
                             <ul id="thumbnail_select">
 
@@ -75,12 +77,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <input type="submit" name="add_submit" class="btn btn-success btn-send" value="Add" form="article_form">
-                            </div>
                         </div>
                     </div>
                     @include('includes.form-error')
+                </form>
+                <form id="test" method="post" action="{{route('images.store')}}" role="form" enctype="multipart/form-data">
+                    @csrf
+                    <input type="submit" name="add_submit" class="btn btn-success btn-send" value="Add" form="test">
                 </form>
                 <div class="row">
                     <div class="col-md-12">
@@ -108,8 +111,8 @@
             cache: false,
             contentType: false,
             processData: false
-        }).done(function() {
-            alert('Done!');
+        }).done(function(data) {
+            alert(data);
         }).fail(function() {
             alert('Fail!');
         });

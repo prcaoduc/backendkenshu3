@@ -17,7 +17,10 @@
                 <p class="card-text mb-auto">{{$article->content}}</p>
                 <a href="{{ route('articles.show', ['id' => $article->id]) }}">Continue reading</a>
             </div>
-        <img class="card-img-right flex-auto d-none d-lg-block" data-src="holder.js/200x250?theme=thumb" alt="Thumbnail [200x250]" style="width: 200px; height: 250px;" src="{{$article->thumbnail[0]->url}}" data-holder-rendered="true">
+            @if(empty($article->thumbnail[0]))
+            @else
+                <img class="card-img-right flex-auto d-none d-lg-block" data-src="holder.js/200x250?theme=thumb" alt="Thumbnail [200x250]" style="width: 200px; height: 250px;" src="{{$article->thumbnail[0]->url}}" data-holder-rendered="true">
+            @endif
         </div>
       </div>
     @endforeach()
