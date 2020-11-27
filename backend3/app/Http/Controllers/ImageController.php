@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Image;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -25,8 +26,10 @@ class ImageController extends Controller
             'images.*'  => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
         // $arr = [];
+        // $request->images = [UploadedFile::fake()->image('photo1.png'), UploadedFile::fake()->image('photo2.png')];
         DB::transaction(function() use ($request) {
             if($request->hasFile('images')){
+
                 foreach($request->file('images') as $file){
                     $ext = $file->guessExtension();
                     $file_name = time() . '.' .  $ext;
@@ -37,13 +40,15 @@ class ImageController extends Controller
                         'user_id'   => Auth::id(),
                         'url'       => $url,
                     ]);
+
                     if(!$image){
                         throw new \Exception('イメージ情報の保存が失敗した！');
                     }
                 }
             }
-        });
-        return response()->json(['success'=> $request->all()]);
+        }, 5);
+
+        return response()->json(['success'=> 'Success !']);
     }
 
 }

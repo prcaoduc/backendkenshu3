@@ -8,7 +8,7 @@
             <div id="carouselExampleIndicators" style="height: 550px;" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 @for($i = 0; $i < $images->count(); $i++)
-                    @if ($images[$i]->isthumbnail)
+                    @if ($images[$i]->pivot->isThumbnail == App\Enums\ThumbnailStatus::isThumbnail)
                         <li data-target="#carouselExampleIndicators" data-slide-to="{{ $i }}" class="active"></li>
                     @else
                         <li data-target="#carouselExampleIndicators" data-slide-to="{{ $i }}"></li>

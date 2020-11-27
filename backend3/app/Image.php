@@ -10,10 +10,10 @@ class Image extends Model
     protected $fillable = ['user_id', 'url'];
 
     public function user(){
-        $this->belongsTo('App\User');
+        return $this->belongsTo('App\User');
     }
 
     public function articles(){
-        $this->belongsToMany('App\Article');
+        return $this->belongsToMany('App\Article');
     }
 }

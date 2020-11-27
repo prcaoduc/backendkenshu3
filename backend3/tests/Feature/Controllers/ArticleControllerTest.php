@@ -8,7 +8,6 @@ use App\Article;
 use App\User;
 use App\Tag;
 use App\Image;
-use Mockery;
 use Tests\TestCase;
 
 class ArticleControllerTest extends TestCase
@@ -19,7 +18,6 @@ class ArticleControllerTest extends TestCase
     public function setUp() : void{
         parent::setUp();
         //　仮定データを準備する
-        $this->userMock = Mockery::mock('App\User');
         $this->user     = factory(User::class)->create();
         $this->article  = factory(Article::class)->create(['author_id' => $this->user->id]);
         $this->tags     = factory(Tag::class, 2)->create();
