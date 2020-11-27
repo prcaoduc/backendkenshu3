@@ -41,6 +41,8 @@
                             </div>
                         </div>
 
+                    </form>
+
                         <div class="row">
                             <ul id="thumbnail_select">
 
@@ -57,30 +59,36 @@
                                                 </button>
                                             </div>
                                             <label for="content">自分のイメージ</label>
-                                            <ul id="user_image">
-                                                @if (empty($user_images))
-                                                <span id="empty_images">まだイメージがない</span>
-                                                @else
-                                                    @for ($i = 0 ; $i < count($user_images); $i++)
-                                                    <li> <input type="checkbox" name="images[]" value="{{$user_images[$i]->id}}={{$user_images[$i]->url}} " id="image_checkbox{{$i}}" />
-                                                    <label for="image_checkbox{{$i}}"><img src="{{ $user_images[$i]->url }}" width="200px" height="100px"/></label></li>
-                                                    @endfor
-                                                @endif
-                                            </ul>
-                                            <label for="content">新たなイメージを投稿する</label>
-                                            <input type="file" id="images" name="images[]" multiple="multiple" accept="image/*" class="form-control" onload="{(e) => {this.loadMe(e, index)}}" />
+                                            <form id="image_form" method="post" action="{{route('images.store')}}" role="form" enctype="multipart/form-data">
+                                                @csrf
+                                                <ul id="user_image">
+                                                    @if (empty($user_images))
+                                                    <span id="empty_images">まだイメージがない</span>
+                                                    @else
+                                                        @for ($i = 0 ; $i < count($user_images); $i++)
+                                                            <li> <input type="checkbox" value="{{$user_images[$i]->id}}={{$user_images[$i]->url}} " id="image_checkbox{{$i}}" />
+                                                            <label for="image_checkbox{{$i}}"><img src="{{ $user_images[$i]->url }}" width="200px" height="100px"/></label></li>
+                                                        @endfor
+                                                    @endif
+                                                </ul>
+                                                <label for="content">新たなイメージを投稿する</label>
+                                                <input type="file" id="images" name="images[]" multiple="multiple" accept="image/*" class="form-control" />
+                                                <input type="submit" name="add_submit" class="btn btn-success btn-send" value="記事投稿" form="image_form" />
+                                            </form>
                                             <div class="modal-footer">
                                                 <button id="images_selected" type="button" class="btn btn-primary" data-dismiss="modal">確認する</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            <input type="submit" name="add_submit" class="btn btn-success btn-send" value="記事投稿" form="article_form">
                             </div>
                         </div>
                     </div>
-                    @include('includes.form-error')
-                </form>
+
+                    <input type="submit" name="add_submit" class="btn btn-success btn-send" value="記事投稿" form="article_form" />
+                        @include('includes.form-error')
+
+
                 <div class="row">
                     <div class="col-md-12">
                         <p class="text-muted"><strong>*</strong> フィールドが必要です。</p>
