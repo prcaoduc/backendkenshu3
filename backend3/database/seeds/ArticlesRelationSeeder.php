@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Enums\ThumbnailStatus;
 
-class RelationSeeder extends Seeder
+class ArticlesRelationSeeder extends Seeder
 {
     /**
      * Run the database seeds.

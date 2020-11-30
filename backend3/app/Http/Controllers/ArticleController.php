@@ -9,13 +9,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Enums\ArticleStatus;
 use App\Enums\ThumbnailStatus;
+use App\Policies\ArticlePolicy;
 use App\Tag;
 use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
     /**
-     * Show the profile for the given user.
+     * Show the account for the given user.
      *
      * @param  int  $id
      * @return \Illuminate\View\View
@@ -72,23 +73,22 @@ class ArticleController extends Controller
                 }
             }
         }, 5);
-        return redirect(route('profile.show', ['id' => Auth::id()]));
+        return redirect(route('account.show'));
     }
 
-    public function edit($id){
-        $article = Article::find($id)->load('tags');
+    public function edit(Article $article){
         $tags = $article->tags;
+        // dd($article);
         return view('articles.edit', compact('article', 'tags'));
     }
 
-    public function update(Request $request, $id){
+    public function update(Article $article, Request $request){
         $request->validate([
             'title'     => 'required|max:100',
             'content'   => 'required|min:5',
             'tag'       => 'required',
         ]);
-        DB::transaction(function() use ($request, $id) {
-            $article = Article::find($id);
+        DB::transaction(function() use ($request, $article) {
             $article->title = $request->title;
             $article->content = $request->content;
             $tags = collect();
@@ -98,13 +98,18 @@ class ArticleController extends Controller
             $article->tags()->sync($tags->pluck('id'));
             $article->save();
         },5 );
-        return redirect(route('profile.show', ['id' => Auth::id()]));
+        return redirect(route('account.drafts'));
     }
 
-    public function delete($id){
-        $article = Article::find($id);
+    public function publish(Article $article){
+        $article->activeStatus = ArticleStatus::Published;
+        $article->save();
+        return redirect(route('account.drafts'));
+    }
+
+    public function delete(Article $article){
         $article->activeStatus = ArticleStatus::Revoked;
         $article->save();
-        return redirect(route('profile.show', ['id' => Auth::id()]));
+        return redirect(route('account.show'));
     }
 }

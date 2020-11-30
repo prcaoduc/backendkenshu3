@@ -32,4 +32,12 @@ class Article extends Model
     public function scopePublished($query){
         return $query->where('activeStatus', '=', ArticleStatus::Published);
     }
+
+    public function scopeDraft($query){
+        return $query->where('activeStatus', '=', ArticleStatus::Draft);
+    }
+
+    public function scopeUnpublished($query){
+        return $query->where('activeStatus', '!=', ArticleStatus::Published);
+    }
 }

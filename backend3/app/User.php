@@ -44,4 +44,25 @@ class User extends Authenticatable
     public function articles(){
         return $this->hasMany('App\Article', 'author_id');
     }
+
+    public function roles(){
+        return $this->belongsToMany('App\Role', 'role_user', 'user_id', 'role_id');
+    }
+
+    /**
+     * ユーザーが $permission をアクセスできるかどうか
+     */
+    public function hasAccess(array $permission){
+        foreach($this->roles as $role){
+            if($role->hasAccess($permission)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * ユーザーがこのロールのメンバーかを確認する
+     */
+    public function inRole($slug){
+        return $this->roles()->where('slug', $slug)->count() == 1;
+    }
 }
