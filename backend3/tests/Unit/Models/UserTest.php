@@ -51,7 +51,7 @@ class UserTest extends TestCase
     }
 
     public function test_user_belongs_to_many_roles(){
-        $this->user->roles()->save($this->journalist_role);
+        $this->user->roles()->attach($this->journalist_role);
         $this->assertInstanceOf(BelongsToMany::class, $this->user->roles());
     }
 }
