@@ -22,12 +22,9 @@ class ArticleTest extends TestCase
         parent::setUp();
 
         $this->user     = factory(User::class)->create();
-        $this->article = factory(Article::class)->create([
+        $this->article  = factory(Article::class)->create([
             'author_id' => $this->user->id,
             ]);
-        $this->image    = factory(Image::class)->create([
-            'user_id'   => $this->user->id,
-        ]);
         $this->tag      = factory(Tag::class)->create();
     }
 

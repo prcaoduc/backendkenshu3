@@ -4,7 +4,9 @@ namespace Tests\Feature\Models;
 
 use App\Article;
 use App\Image;
+use App\Role;
 use App\User;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -23,6 +25,8 @@ class UserTest extends TestCase
         $this->image    = factory(Image::class)->create([
             'user_id'   => $this->user->id,
         ]);
+        $this->journalist_role = Role::where('slug', 'journalist')->first();
+        $this->editor_role = Role::where('slug', 'editor')->first();
 
     }
 
@@ -44,5 +48,10 @@ class UserTest extends TestCase
             'id'            => $this->image->id,
             'user_id'       => $this->user->id,
         ]);
+    }
+
+    public function test_user_belongs_to_many_roles(){
+        $this->user->roles()->save($this->journalist_role);
+        $this->assertInstanceOf(BelongsToMany::class, $this->user->roles());
     }
 }
