@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'permission',
+        'name', 'slug', 'permissions',
     ];
     protected $casts = [
         'permissions' => 'array',

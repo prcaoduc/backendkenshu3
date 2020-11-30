@@ -9,7 +9,7 @@
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-            <a class="dropdown-item" href="{{ route('profile.show', Auth::user()->id) }}">記事管理</a>
+            <a class="dropdown-item" href="{{ route('account.show') }}">記事管理</a>
             <a class="dropdown-item" href="{{ route('articles.create') }}">記事作成</a>
           </div>
         </div>

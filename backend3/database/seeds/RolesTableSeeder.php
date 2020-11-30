@@ -1,8 +1,9 @@
 <?php
 
+use App\Role;
 use Illuminate\Database\Seeder;
 
-class TagsTableSeeder extends Seeder
+class RolesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,17 +16,18 @@ class TagsTableSeeder extends Seeder
             'name' => 'Editor',
             'slug' => 'editor',
             'permissions' => [
-                'release.publish'   => true,
-                'release.update'    => true,
-                'release.draft'     => true,
-                'release.create'    => true,
+                'article.publish'   => true,
+                'article.update'    => true,
+                'article.create'    => true,
+                'article.delete'    => true,
+                'article.destroy'   => true,
             ]
         ]);
         $journalist = Role::create([
             'name' => 'Journalist',
             'slug' => 'journalist',
             'permissions' => [
-                'release.create'    => true,
+                'article.create'    => true,
             ]
         ]);
         $customer = Role::create([
