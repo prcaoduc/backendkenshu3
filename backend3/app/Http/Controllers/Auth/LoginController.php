@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -19,7 +19,7 @@ class LoginController extends Controller
     | redirecting them to your home screen. The controller uses a trait
     | to conveniently provide its functionality to your applications.
     |
-    */
+     */
 
     use AuthenticatesUsers;
 
@@ -45,19 +45,13 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    protected function login(Request $request)
+    protected function login(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
         $remember_me = $request->has('remember');
-
         $credentials = $request->only('email', 'password');
-
         if (Auth::attempt($credentials, $remember_me)) {
             return redirect()->route('home');
-        }else{
+        } else {
             return redirect()->route('login')->withErrors('Wrong username/password combination.');
         }
     }

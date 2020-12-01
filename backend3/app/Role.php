@@ -21,8 +21,10 @@ class Role extends Model
     public function hasAccess(array $permissions)
     {
         foreach ($permissions as $permission) {
-            if ($this->hasPermission($permission))
+            if ($this->hasPermission($permission)) {
                 return true;
+            }
+
         }
         return false;
     }

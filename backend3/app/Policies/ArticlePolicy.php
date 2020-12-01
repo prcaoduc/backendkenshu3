@@ -96,12 +96,14 @@ class ArticlePolicy
         return $user->hasAccess(['article.destroy']);
     }
 
-    public function publish(User $user){
+    public function publish(User $user)
+    {
 
         return $user->hasAccess(['article.publish']);
     }
 
-    public function draft(User $user){
+    public function draft(User $user)
+    {
         return $user->inRole('editor');
     }
 }
