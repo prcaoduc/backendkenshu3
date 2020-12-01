@@ -68,7 +68,7 @@ class ArticlePolicy
     public function delete(User $user, Article $article)
     {
         //
-        return $user->hasAccess(['article.delete']);
+        return $user->hasAccess(['article.delete']) or $user->id == $article->author->id;
     }
 
     /**

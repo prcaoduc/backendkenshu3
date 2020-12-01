@@ -33,8 +33,8 @@ class ImageController extends Controller
                 foreach($request->file('images') as $file){
                     $ext = $file->guessExtension();
                     $file_name = time() . '.' .  $ext;
-                    $file->storeAs('public/', $file_name);
-                    $url = Storage::url($file_name);
+                    $file->storeAs('/', $file_name, 'uploads');
+                    $url = asset('images/'.$file_name);
                     // $url = Storage::disk('public')->get($file_name);
                     $image = Image::create([
                         'user_id'   => Auth::id(),
@@ -47,7 +47,6 @@ class ImageController extends Controller
                 }
             }
         }, 5);
-
         return response()->json(['success'=> 'Success !']);
     }
 

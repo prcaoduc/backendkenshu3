@@ -42,7 +42,7 @@
                         </div>
 
                     </form>
-
+                    <img src="{{asset('/images/1606781485.png')}}" >
                         <div class="row">
                             <ul id="thumbnail_select">
 
@@ -73,7 +73,6 @@
                                                 </ul>
                                                 <label for="content">新たなイメージを投稿する</label>
                                                 <input type="file" id="images" name="images[]" multiple="multiple" accept="image/*" class="form-control" />
-                                                <input type="submit" name="add_submit" class="btn btn-success btn-send" value="記事投稿" form="image_form" />
                                             </form>
                                             <div class="modal-footer">
                                                 <button id="images_selected" type="button" class="btn btn-primary" data-dismiss="modal">確認する</button>
