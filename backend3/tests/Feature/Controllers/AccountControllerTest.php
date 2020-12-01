@@ -4,31 +4,31 @@ namespace Tests\Feature\Controllers;
 
 use App\Article;
 use App\Role;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class AccountControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp() : void{
+    public function setUp(): void
+    {
         parent::setUp();
         //　仮定データを準備する
-        $this->editor       = factory(User::class)->create();
-        $this->journalist   = factory(User::class)->create();
-        $this->customer     = factory(User::class)->create();
+        $this->editor = factory(User::class)->create();
+        $this->journalist = factory(User::class)->create();
+        $this->customer = factory(User::class)->create();
         $this->editor_role = Role::create([
             'name' => 'Editor',
             'slug' => 'editor',
             'permissions' => [
-                'article.publish'   => true,
-                'article.update'    => true,
-                'article.create'    => true,
-                'article.delete'    => true,
-                'article.destroy'   => true,
-            ]
+                'article.publish' => true,
+                'article.update' => true,
+                'article.create' => true,
+                'article.delete' => true,
+                'article.destroy' => true,
+            ],
         ]);
         $this->editor->roles()->attach([$this->editor_role->id]);
 
@@ -36,8 +36,8 @@ class AccountControllerTest extends TestCase
             'name' => 'Journalist',
             'slug' => 'journalist',
             'permissions' => [
-                'article.create'    => true,
-            ]
+                'article.create' => true,
+            ],
         ]);
         $this->journalist->roles()->attach([$this->journalist_role->id]);
 
@@ -45,33 +45,36 @@ class AccountControllerTest extends TestCase
             'name' => 'Customer',
             'slug' => 'customer',
             'permissions' => [
-            ]
+            ],
         ]);
         $this->customer->roles()->attach([$this->customer_role->id]);
-        $this->article  = factory(Article::class)->create(['author_id' => $this->journalist->id]);
-        $this->editor_article  = factory(Article::class)->create(['author_id' => $this->editor->id]);
+        $this->article = factory(Article::class)->create(['author_id' => $this->journalist->id]);
+        $this->editor_article = factory(Article::class)->create(['author_id' => $this->editor->id]);
     }
 
     public function test_visible_show()
     {
-        $user       = factory(User::class)->create();
-        $response   = $this->actingAs($user)->get(route('account.show'));
+        $user = factory(User::class)->create();
+        $response = $this->actingAs($user)->get(route('account.show'));
 
         $response->assertStatus(200)
-                 ->assertViewIs('account.show');
+            ->assertViewIs('account.show');
     }
 
     public function test_guest_invisible_show()
     {
-        $response   = $this->get(route('account.show'));
+        $response = $this->get(route('account.show'));
+
         $response->assertStatus(302)
-                 ->assertRedirect('/login');
+            ->assertRedirect('/login');
     }
 
-    public function test_editor_visible_all_drafts(){
-        $response   = $this->actingAs($this->editor)->get(route('account.drafts'));
+    public function test_editor_visible_all_drafts()
+    {
+        $response = $this->actingAs($this->editor)->get(route('account.drafts'));
+
         $response->assertStatus(200)
-                 ->assertViewIs('account.drafts');
+            ->assertViewIs('account.drafts');
     }
 
 }

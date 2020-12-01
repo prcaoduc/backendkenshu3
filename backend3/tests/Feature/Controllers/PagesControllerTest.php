@@ -9,13 +9,15 @@ class PagesControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp() : void{
+    public function setUp(): void
+    {
         parent::setUp();
     }
 
-    public function test_visible_homepage(){
+    public function test_visible_homepage()
+    {
         $response = $this->get(route('home'));
         $response->assertStatus(200)
-                 ->assertViewIs('pages.home');
+            ->assertViewIs('pages.home');
     }
 }

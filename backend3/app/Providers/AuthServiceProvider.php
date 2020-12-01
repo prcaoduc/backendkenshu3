@@ -28,11 +28,11 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //
-        Gate::define('article.create',  ArticlePolicy::class.'@create');
-        Gate::define('article.update',  ArticlePolicy::class.'@update');
-        Gate::define('article.delete',  ArticlePolicy::class.'@delete');
-        Gate::define('article.destroy', ArticlePolicy::class.'@forceDelete');
-        Gate::define('article.publish', ArticlePolicy::class.'@publish');
-        Gate::define('article.draft',   ArticlePolicy::class.'@draft');
+        Gate::define('article.create', ArticlePolicy::class . '@create');
+        Gate::define('article.update', ArticlePolicy::class . '@update');
+        Gate::define('article.delete', ArticlePolicy::class . '@delete');
+        Gate::define('article.destroy', ArticlePolicy::class . '@forceDelete');
+        Gate::define('article.publish', ArticlePolicy::class . '@publish');
+        Gate::define('article.draft', ArticlePolicy::class . '@draft');
     }
 }
