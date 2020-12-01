@@ -8,6 +8,7 @@ use App\Article;
 use App\User;
 use App\Tag;
 use App\Image;
+use App\Role;
 use Tests\TestCase;
 
 class ArticleControllerTest extends TestCase
@@ -19,6 +20,30 @@ class ArticleControllerTest extends TestCase
         parent::setUp();
         //　仮定データを準備する
         $this->user     = factory(User::class)->create();
+        $this->editor_role = Role::create([
+            'name' => 'Editor',
+            'slug' => 'editor',
+            'permissions' => [
+                'article.publish'   => true,
+                'article.update'    => true,
+                'article.create'    => true,
+                'article.delete'    => true,
+                'article.destroy'   => true,
+            ]
+        ]);
+        $this->journalist_role = Role::create([
+            'name' => 'Journalist',
+            'slug' => 'journalist',
+            'permissions' => [
+                'article.create'    => true,
+            ]
+        ]);
+        $this->customer_role = Role::create([
+            'name' => 'Customer',
+            'slug' => 'customer',
+            'permissions' => [
+            ]
+        ]);
         $this->article  = factory(Article::class)->create(['author_id' => $this->user->id]);
         $this->tags     = factory(Tag::class, 2)->create();
         $this->images    = factory(Image::class, 3)->create();
@@ -30,8 +55,9 @@ class ArticleControllerTest extends TestCase
                  ->assertViewIs('articles.show');
     }
 
-    public function test_visible_create_article(){
+    public function test_editor_visible_create_article(){
         $response = $this->actingAs($this->user)->get('/articles/create');
+        dd($this->journalist_role = Role::where('slug', 'journalist')->first());
         $response->assertStatus(200)
                  ->assertViewIs('articles.create');
     }

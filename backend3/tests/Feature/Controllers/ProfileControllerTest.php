@@ -18,9 +18,9 @@ class ProfileControllerTest extends TestCase
     public function test_visible_profile()
     {
         $user     = factory(User::class)->create();
-        $response       = $this->actingAs($user)->get('me/'.$user->id);
+        $response       = $this->actingAs($user)->get(route('account.show'));
 
         $response->assertStatus(200)
-                 ->assertViewIs('profile.show');
+                 ->assertViewIs('account.show');
     }
 }
