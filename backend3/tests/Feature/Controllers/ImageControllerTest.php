@@ -16,13 +16,14 @@ class ImageControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_create_upload_image()
+    public function test_create_upload_image_ajax()
     {
         $user     = factory(User::class)->create();
         $this->actingAs($user)->assertAuthenticated();
+        $image = UploadedFile::fake()->image('photo1.png');
         $response = $this->actingAs($user)->ajaxPost('/images/create',
             [
-                'images' => [ UploadedFile::fake()->image('photo1.png')]
+                'images' => [ $image ]
             ]);
 
         $response->assertSuccessful();
