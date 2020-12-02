@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\ImageService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreImageRequest;
 use App\Image;
@@ -22,11 +23,7 @@ class ImageController extends Controller
         DB::transaction(function () use ($request) {
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $file) {
-                    $ext = $file->guessExtension();
-                    $file_name = time() . '.' . $ext;
-                    $file->storeAs('/', $file_name, 'uploads');
-                    $url = asset('images/' . $file_name);
-                    // $url = Storage::disk('public')->get($file_name);
+                    $url = ImageService::storeAjaxRequest($file);
                     $image = Image::create([
                         'user_id' => Auth::id(),
                         'url' => $url,
